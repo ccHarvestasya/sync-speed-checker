@@ -1,9 +1,9 @@
 eolia.harvestasya.com
 201-sai-dual.symboltest.net
-5t.dusanjp.com
 2.dusanjp.com
-3t.dusanjp.com
+5t.dusanjp.com
 6t.dusanjp.com
+001-sai-dual.symboltest.net
 vmi1560137.contaboserver.net
 testnet1.symbol-mikun.net
 sym-test-01.opening-line.jp
