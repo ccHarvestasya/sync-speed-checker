@@ -11,23 +11,25 @@ const rs = fs.createReadStream('hostlist.txt', 'utf-8');
 const rl = readline.createInterface({ input: rs });
 
 rl.on('line', async (nodeHost) => {
-  const listener = new Listener(nodeHost);
-  await listener.open();
+  if (nodeHost !== '') {
+    const listener = new Listener(nodeHost);
+    await listener.open();
 
-  // 新ブロック監視
-  listener.registerNewBlock((newBlock: NewBlock) => {
-    if (blockInfo.blockHeight < newBlock.block.height) {
-      blockInfo.blockHeight = newBlock.block.height;
-      blockInfo.time = new Date();
-    }
-    const diff = new Date().getTime() - blockInfo.time.getTime();
-    console.log(
-      `${diff.toString().padStart(5, ' ')}ms: ${newBlock.block.height}: ${nodeHost}`
-    );
-  });
+    // 新ブロック監視
+    listener.registerNewBlock((newBlock: NewBlock) => {
+      if (blockInfo.blockHeight < newBlock.block.height) {
+        blockInfo.blockHeight = newBlock.block.height;
+        blockInfo.time = new Date();
+      }
+      const diff = new Date().getTime() - blockInfo.time.getTime();
+      console.log(
+        `${diff.toString().padStart(5, ' ')}ms: ${newBlock.block.height}: ${nodeHost}`
+      );
+    });
 
-  // エラーステータス監視
-  listener.registerStatus('', (status: ErrorStatus) => {
-    console.log(`     ErrorStatus: ${status.code}: ${nodeHost}`);
-  });
+    // エラーステータス監視
+    listener.registerStatus('', (status: ErrorStatus) => {
+      console.log(`     ErrorStatus: ${status.code}: ${nodeHost}`);
+    });
+  }
 });
